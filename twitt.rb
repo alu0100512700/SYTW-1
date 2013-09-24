@@ -17,9 +17,9 @@ if numero.zero?
 		end
 	end
 else
-	numero.times do |n|
+	numero.times do |fid|
 
-		f = Twitter.user(amigos.ids[n])
+		f = Twitter.user(amigos.ids[fid])
 
 		if (f.protected.to_s != "true")
 			usuarios[f.screen_name.to_s] = f.followers_count
