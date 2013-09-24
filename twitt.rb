@@ -1,21 +1,30 @@
+#!/usr/bin/env ruby
 require 'twitter'
 require './configure'
 
-screen_name = ARGV[0] || 'timoreilly'
-a_user = Twitter.user(screen_name)
+nombre = ARGV[0].to_s || "timoreilly"
+numero = ARGV[1].to_i
+usuarios = Hash.new
+amigos = Twitter.friend_ids(nombre)
 
-puts "Username  : #{a_user.screen_name}"
-puts "Name      : #{a_user.name}"
-puts "Location  : #{a_user.location}"
-puts "URL       : #{a_user.url}" if a_user.url
-puts "Verified  : #{a_user.verified}"
-puts
+if numero.zero?
+	amigos.ids.each do |fid|
+		
+		f = Twitter.user(fid)
+		
+		if (f.protected.to_s != "true")
+			usuarios[f.screen_name.to_s] = f.followers_count
+		end
+	end
+else
+	numero.times do |n|
 
-tweet = Twitter.user_timeline(screen_name).first
+		f = Twitter.user(amigos.ids[n])
 
-if tweet
-  puts "Tweet text : #{tweet.text }"
-  puts "Tweet time : #{tweet.created_at}"
-  puts "Tweet ID   : #{tweet.id}"
+		if (f.protected.to_s != "true")
+			usuarios[f.screen_name.to_s] = f.followers_count
+		end
+	end
 end
 
+usuarios.sort_by {|k,v| -v}.each { |user, count| puts "#{user}, #{count}" }
