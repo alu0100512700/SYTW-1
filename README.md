@@ -14,3 +14,5 @@ por tu información de aplicación twitter(de tu cuenta).
 
 ruby twitt.rb [nombre_usuario] [numero de amigos]
 
+
+Autor: Jonathan Hernández Phungchinda
